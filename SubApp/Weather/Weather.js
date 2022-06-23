@@ -54,6 +54,12 @@ export class Weather extends Component {
     }
   };
 
+  round=(temp)=>{
+let a=Math.trunc(temp*100 + 0.5);
+let finalTemp= a/100;
+return finalTemp
+  };
+
   render() {
 const {data} = this.state;
 
@@ -66,6 +72,10 @@ const {data} = this.state;
             backgroundColor: 'white',
           }}>
           <Text style={styles.title}>Weather</Text>
+          <View>
+            <Text style={styles.text}>Température :{this.round(data.main.temp - 272.15)} °C</Text>
+            <Text style={styles.text}>Pressions :{data.main.pressure} hPa</Text>
+          </View>
         </View>
       );
     } else {
@@ -87,5 +97,10 @@ const {data} = this.state;
 const styles = StyleSheet.create({
   title: {
     fontSize: 50,
+    fontWeight: 'bold',
+
+  },
+  text: {
+    fontSize: 25,
   },
 });
