@@ -4,12 +4,14 @@ import Geolocation from 'react-native-geolocation-service';
 import {keyWeather} from './utils';
 
 export class Weather extends Component {
+  // Je définit Null par défaut
   state = {
     lat: null,
     lon: null,
     data: null,
   };
 
+  // J'apelle la fonction componentDidMount, qui me demande l'autorisation de la localisation
   componentDidMount() {
     this.getLocation();
   }
@@ -24,9 +26,12 @@ export class Weather extends Component {
     // Je créer une condition, pour savoir si j'ai la permin ssion ou non.
     // Si la const 'granted' est égal au autorisation, alors je donne ma localisation
     if (granted == PermissionsAndroid.RESULTS.GRANTED) {
+      // J'obtient l'emplacement actuelle
       Geolocation.getCurrentPosition(
           (position) => {
           console.log(position);
+          // ( lat: position.coords.latitude,) qui équivaut à positionner les coordonnées de latitude
+          // La position fait référence au paramétre (position)
           this.setState({
             lat: position.coords.latitude,
             lon: position.coords.longitude,
@@ -43,15 +48,17 @@ export class Weather extends Component {
   };
 
 
-
+// Je récupére les données de l'API 
   getWeather = async () => {
+    // Si le state n'est pas égal à NUll,
     if (this.state.lat != null) {
-
+    // alors je récupére les données de l'API
+    // Pour récupérer ma clé API je créer un fichier "utils.js", puis le l'apelle via le nom de la constante est, le nom de la clé
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${this.state.lat}&lon=${this.state.lon}&appid=${keyWeather.apiKey}`,
       );
 
-
+// Je passe la réponse que je recois
       const data = await response.json();
       this.setState({
         data: data,
@@ -68,7 +75,8 @@ return finalTemp
   render() {
 const {data} = this.state;
 
-
+// Si les données ne sont pas égal à Null
+// Alors j'affiche cette écran
     if (data != null) {
       return (
         <View
@@ -90,6 +98,7 @@ const {data} = this.state;
       );
     } else {
       return (
+        // Ecran de chargement
         <View
           style={{
             flex: 1,
