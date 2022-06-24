@@ -13,11 +13,16 @@ export class Weather extends Component {
   componentDidMount() {
     this.getLocation();
   }
+  // Je créer une fonction pour obtenir l'emplacement,
+  // A l'intérieur je mets les autorisation android requis.
+  // async va transformer la fonction en promesse
   getLocation = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
 
+    // Je créer une condition, pour savoir si j'ai la permin ssion ou non.
+    // Si la const 'granted' est égal au autorisation, alors je donne ma localisation
     if (granted == PermissionsAndroid.RESULTS.GRANTED) {
       Geolocation.getCurrentPosition(
           (position) => {
@@ -69,12 +74,17 @@ const {data} = this.state;
         <View
           style={{
             flex: 1,
-            backgroundColor: 'white',
+            backgroundColor: '#465675',
+            alignItems:'center',
           }}>
-          <Text style={styles.title}>Weather</Text>
+          <Text style={styles.title}>Météo</Text>
           <View>
-            <Text style={styles.text}>Température :{this.round(data.main.temp - 272.15)} °C</Text>
-            <Text style={styles.text}>Pressions :{data.main.pressure} hPa</Text>
+            <Text style={styles.data}>Température :{this.round(data.main.temp - 272.15)} °C</Text>
+            <Text style={styles.data}>Pressions :{data.main.pressure} hPa</Text>
+            <Text style={styles.data}>Humidité :{data.main.humidity} %</Text>
+            <Text style={styles.data}>Température min :{this.round(data.main.temp_min - 272.15)} °C</Text>
+            <Text style={styles.data}>Température max :{this.round(data.main.temp_max - 272.15)} °C</Text>
+            <Text style={styles.data}>Vent :{data.wind.speed} </Text>
           </View>
         </View>
       );
@@ -83,7 +93,7 @@ const {data} = this.state;
         <View
           style={{
             flex: 1,
-            backgroundColor: 'green',
+            backgroundColor: 'black',
             justifyContent: 'center',
             alignItems: 'center'
           }}>
@@ -98,9 +108,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     fontWeight: 'bold',
-
+color: '#F2F3F5'
   },
-  text: {
+  data: {
     fontSize: 25,
+    color: '#F2F3F5'
   },
 });
